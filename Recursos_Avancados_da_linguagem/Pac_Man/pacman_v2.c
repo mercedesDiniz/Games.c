@@ -5,10 +5,13 @@
 
 // Declarando Variaveis Globais
 MAPA mp;
+POSICAO pacman; // posição atual do pacman
+
 
 // MAIN
 int main(){	
 	le_mapa(&mp); // Inicializa o mapa
+	 encontrar_no_mapa(&mp, &pacman, '@'); // localizando posicao inicial do pacman no mapa
 	
 	// LOOP PRINCIPAL
 	do{
@@ -30,34 +33,26 @@ int acabou(){
 }
 
 void move(char direcao){
-	// localizando o pacman no mapa
-	 int x;
-	 int y;
-	 for(int i=0; i<(mp.linhas); i++){
-	 	for(int j=0; j<(mp.colunas); j++){
-	 		if(mp.matriz[i][j] == '@'){
-	 			x = i;
-	 			y = j;
-	 			break;
-	 		}
-	 	}
-	 }
+	mp.matriz[pacman.x][pacman.y] = '.'; // apagando o pacman da posicao anterior
 	 
 	 switch(direcao){
 	 	case 'a': // vai p/ esquerda
-	 		mp.matriz[x][y-1] = '@';
+	 		mp.matriz[pacman.x][pacman.y-1] = '@';
+	 		pacman.y--; // atualiando a localizacao do pacman no mapa
 	 		break;
 	 	case 'd': // vai p/ direita
-	 		mp.matriz[x][y+1] = '@';
+	 		mp.matriz[pacman.x][pacman.y+1] = '@';
+	 		pacman.y++; // atualiando a localizacao do pacman no mapa
 	 		break;
 	 	case 'w': // vai p/ cima
-	 		mp.matriz[x-1][y] = '@';
+	 		mp.matriz[pacman.x-1][pacman.y] = '@';
+	 		pacman.x--; // atualiando a localizacao do pacman no mapa
 	 		break;
 	 	case 's': // vai p/ baixo
-	 		mp.matriz[x+1][y] = '@';
+	 		mp.matriz[pacman.x+1][pacman.y] = '@';
+	 		pacman.x++; // atualiando a localizacao do pacman no mapa
 	 		break;
 	 }  
 	 
-	 mp.matriz[x][y] = '.'; // apagando o pacman da posicao anterior
 }
 

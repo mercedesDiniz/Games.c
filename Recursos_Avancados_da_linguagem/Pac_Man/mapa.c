@@ -45,3 +45,16 @@ void imprime_mapa(MAPA* mp){
 		printf("%s\n", mp->matriz[i]);
 	}
 }
+
+void encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
+	// localizando algo no mapa
+	 for(int i=0; i<mp->linhas; i++){
+	 	for(int j=0; j<mp->colunas; j++){
+	 		if(mp->matriz[i][j] == c){
+	 			p->x = i;
+	 			p->y = j;
+	 			break;
+	 		}
+	 	}
+	 }
+}
