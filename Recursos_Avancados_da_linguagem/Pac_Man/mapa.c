@@ -66,13 +66,13 @@ int ehvalida(MAPA* mp, int x, int y){
 }
 
 int ehvazia(MAPA* mp, int x, int y){
-	return mp->matriz[x][y] == '.'; // caracter '.' representa espaços vazios
+	return mp->matriz[x][y] == VAZIO; // caracter '.' representa espaços vazios
 }
 
 void andando_no_mapa(MAPA* mp, int x_origem, int y_origem, int x_dest, int y_dest){
 	char personagem = mp->matriz[x_origem][y_origem]; // armazena o personagem que está em determinada posicao
 	mp->matriz[x_dest][y_dest] = personagem; // movendo o personagem p/ a nova posicao
 	
-	mp->matriz[x_origem][y_origem] = '.'; // apagando o personagem da posicao anterior
+	mp->matriz[x_origem][y_origem] = VAZIO; // apagando o personagem da posicao anterior
 }
 

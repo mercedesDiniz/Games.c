@@ -10,7 +10,7 @@ POSICAO pacman; // posição atual do pacman
 // MAIN
 int main(){	
 	le_mapa(&mp); // Inicializa o mapa
-	 encontrar_no_mapa(&mp, &pacman, '@'); // localizando posicao inicial do pacman no mapa
+	 encontrar_no_mapa(&mp, &pacman, PACMAN); // localizando posicao inicial do pacman no mapa
 	
 	// LOOP PRINCIPAL
 	do{
@@ -42,16 +42,16 @@ void move(char direcao){
 	int prox_x = pacman.x; // posicao atual de x
 	int prox_y = pacman.y; // posicao atual de y
 	switch(direcao){
-		case 'a': // vai p/ esquerda
+		case ESQUERDA: 
 	 		prox_y--; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
-	 	case 'd': // vai p/ direita
+	 	case DIREITA: 
 	 		prox_y++; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
-	 	case 'w': // vai p/ cima
+	 	case CIMA: 
 	 		prox_x--; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
-	 	case 's': // vai p/ baixo
+	 	case BAIXO: 
 	 		prox_x++; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
 	}  

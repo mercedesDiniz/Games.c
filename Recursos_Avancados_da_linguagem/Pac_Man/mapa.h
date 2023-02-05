@@ -1,3 +1,7 @@
+#define PACMAN '@'
+#define VAZIO '.'
+#define PAREDE_VERTICAL '|'
+#define PAREDE_HORIZONTAL '-'
 struct mapa{
 	int linhas;
 	int colunas;
