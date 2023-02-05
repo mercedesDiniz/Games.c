@@ -61,8 +61,16 @@ int encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
 	 return 0; // não achou
 }
 
-int pode_andar(MAPA* mp, int x, int y){
-	return ehvalida(mp, x, y) && ehvazia(mp, x, y);
+int ehparede(MAPA* mp, int x, int y){
+	return mp->matriz[x][y] == PAREDE_VERTICAL || mp->matriz[x][y] == PAREDE_HORIZONTAL;
+}
+
+int ehpersonagem(MAPA* mp, char personagem, int x, int y){
+	return mp->matriz[x][y] == personagem;
+}
+
+int pode_andar(MAPA* mp, char personagem, int x, int y){
+	return ehvalida(mp, x, y) && !ehparede(mp, x, y) && !ehpersonagem(mp, personagem, x, y);
 }
 
 int ehvalida(MAPA* mp, int x, int y){
