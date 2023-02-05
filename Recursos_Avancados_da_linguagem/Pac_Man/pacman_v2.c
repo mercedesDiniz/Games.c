@@ -32,27 +32,36 @@ int acabou(){
 	return 0; // nao acabou
 }
 
-void move(char direcao){
-	mp.matriz[pacman.x][pacman.y] = '.'; // apagando o pacman da posicao anterior
-	 
-	 switch(direcao){
-	 	case 'a': // vai p/ esquerda
-	 		mp.matriz[pacman.x][pacman.y-1] = '@';
-	 		pacman.y--; // atualiando a localizacao do pacman no mapa
+void move(char direcao){	
+	if(direcao != 'a' && direcao != 'd' && direcao != 'w' && direcao != 's') return; //tratando entradas invalidas	
+		 
+	 // verificar o que temos no mapa na posicao que o pacman deseja ir
+	int prox_x = pacman.x; // posicao atual de x
+	int prox_y = pacman.y; // posicao atual de y
+	switch(direcao){
+		case 'a': // vai p/ esquerda
+	 		prox_y--; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
 	 	case 'd': // vai p/ direita
-	 		mp.matriz[pacman.x][pacman.y+1] = '@';
-	 		pacman.y++; // atualiando a localizacao do pacman no mapa
+	 		prox_y++; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
 	 	case 'w': // vai p/ cima
-	 		mp.matriz[pacman.x-1][pacman.y] = '@';
-	 		pacman.x--; // atualiando a localizacao do pacman no mapa
+	 		prox_x--; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
 	 	case 's': // vai p/ baixo
-	 		mp.matriz[pacman.x+1][pacman.y] = '@';
-	 		pacman.x++; // atualiando a localizacao do pacman no mapa
+	 		prox_x++; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
-	 }  
-	 
+	}  
+	//tratrando a validacao do movimento
+	if(prox_x >= mp.linhas) return; // limite vertical do mapa
+	if(prox_y >= mp.colunas) return; // limite horizontal do mapa
+	if(mp.matriz[prox_x][prox_y] != '.') return; // não se move para espaços não vazios
+		 
+	mp.matriz[prox_x][prox_y] = '@'; // movendo o pacman p/ uma posicao valida
+	mp.matriz[pacman.x][pacman.y] = '.'; // apagando o pacman da posicao anterior
+	
+	// atualizando a posicao atual do pacman
+	pacman.x = prox_x; 
+	pacman.y = prox_y;	
 }
 
