@@ -7,7 +7,6 @@
 MAPA mp;
 POSICAO pacman; // posição atual do pacman
 
-
 // MAIN
 int main(){	
 	le_mapa(&mp); // Inicializa o mapa
@@ -32,9 +31,13 @@ int acabou(){
 	return 0; // nao acabou
 }
 
+int ehdirecao(char direcao){
+	return direcao == 'a' || direcao == 'd' || direcao == 'w' || direcao == 's';
+}
+
 void move(char direcao){	
-	if(direcao != 'a' && direcao != 'd' && direcao != 'w' && direcao != 's') return; //tratando entradas invalidas	
-		 
+	if(!ehdirecao(direcao)) return; //tratando entradas invalidas	
+	
 	 // verificar o que temos no mapa na posicao que o pacman deseja ir
 	int prox_x = pacman.x; // posicao atual de x
 	int prox_y = pacman.y; // posicao atual de y
@@ -53,15 +56,14 @@ void move(char direcao){
 	 		break;
 	}  
 	//tratrando a validacao do movimento
-	if(prox_x >= mp.linhas) return; // limite vertical do mapa
-	if(prox_y >= mp.colunas) return; // limite horizontal do mapa
-	if(mp.matriz[prox_x][prox_y] != '.') return; // não se move para espaços não vazios
-		 
-	mp.matriz[prox_x][prox_y] = '@'; // movendo o pacman p/ uma posicao valida
-	mp.matriz[pacman.x][pacman.y] = '.'; // apagando o pacman da posicao anterior
+	if(!ehvalida(&mp, prox_x, prox_y)) return; // não atravesa os limites do mapa
+	if(!ehvazia(&mp, prox_x, prox_y)) return; // não se move para espaços não vazios
 	
-	// atualizando a posicao atual do pacman
-	pacman.x = prox_x; 
-	pacman.y = prox_y;	
+	// movenvo o pacman p/ um posicao valida no mapa
+	andando_no_mapa(&mp, pacman.x, pacman.y, prox_x, prox_y);
+	
+	// atualizando a posicao atual no pacman
+	pacman.x = prox_x;
+	pacman.y =  prox_y;
 }
 

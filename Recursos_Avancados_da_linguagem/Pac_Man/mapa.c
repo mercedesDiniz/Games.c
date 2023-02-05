@@ -58,3 +58,21 @@ void encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
 	 	}
 	 }
 }
+
+int ehvalida(MAPA* mp, int x, int y){
+	if(x >= mp->linhas) return 0; // limite vertical do mapa
+	if(y >= mp->colunas) return 0; // limite horizontal do mapa
+	return 1;
+}
+
+int ehvazia(MAPA* mp, int x, int y){
+	return mp->matriz[x][y] == '.'; // caracter '.' representa espaços vazios
+}
+
+void andando_no_mapa(MAPA* mp, int x_origem, int y_origem, int x_dest, int y_dest){
+	char personagem = mp->matriz[x_origem][y_origem]; // armazena o personagem que está em determinada posicao
+	mp->matriz[x_dest][y_dest] = personagem; // movendo o personagem p/ a nova posicao
+	
+	mp->matriz[x_origem][y_origem] = '.'; // apagando o personagem da posicao anterior
+}
+
