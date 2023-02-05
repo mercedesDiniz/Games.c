@@ -60,6 +60,10 @@ void encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
 	 }
 }
 
+int pode_andar(MAPA* mp, int x, int y){
+	return ehvalida(mp, x, y) && ehvazia(mp, x, y);
+}
+
 int ehvalida(MAPA* mp, int x, int y){
 	if(x >= mp->linhas) return 0; // limite vertical do mapa
 	if(y >= mp->colunas) return 0; // limite horizontal do mapa

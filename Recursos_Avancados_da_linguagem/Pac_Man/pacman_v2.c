@@ -57,9 +57,8 @@ void move(char direcao){
 	 		prox_x++; // atualiando a localizacao em que o pacman deseja ir no mapa
 	 		break;
 	}  
-	//tratrando a validacao do movimento
-	if(!ehvalida(&mp, prox_x, prox_y)) return; // não atravesa os limites do mapa
-	if(!ehvazia(&mp, prox_x, prox_y)) return; // não se move para espaços não vazios
+
+	if(!pode_andar(&mp, prox_x, prox_y)) return; //tratrando a validacao do movimento 
 	
 	// movenvo o pacman p/ um posicao valida no mapa
 	anda_no_mapa(&mp, pacman.x, pacman.y, prox_x, prox_y);
@@ -80,8 +79,7 @@ int pra_onde_o_fantasma_vai(int x_atual, int y_atual, int* x_dest, int* y_dest){
 	srand(time(0)); // semente
 	for(int i=0; i < 10; i++){
 		int posicao = rand() % 4; // chutando um numero aleatorio entre 0 e 3
-		if(ehvalida(&mp, opcoes[posicao][0], opcoes[posicao][1]) && 
-		ehvazia(&mp, opcoes[posicao][0], opcoes[posicao][1])){
+		if(pode_andar(&mp, opcoes[posicao][0], opcoes[posicao][1])){
 			*x_dest = opcoes[posicao][0];
 			*y_dest = opcoes[posicao][1];
 			return 1;
