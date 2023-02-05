@@ -7,6 +7,7 @@
 MAPA mp;
 POSICAO pacman; // posição atual do pacman
 
+
 // MAIN
 int main(){	
 	le_mapa(&mp); // Inicializa o mapa
@@ -20,6 +21,7 @@ int main(){
 		scanf(" %c", &comando);
 		
 		move(comando); // executando o comando
+		fantasmas(); // habilitando os fantasmas
 			
 	}while(!acabou());
 	
@@ -60,10 +62,26 @@ void move(char direcao){
 	if(!ehvazia(&mp, prox_x, prox_y)) return; // não se move para espaços não vazios
 	
 	// movenvo o pacman p/ um posicao valida no mapa
-	andando_no_mapa(&mp, pacman.x, pacman.y, prox_x, prox_y);
+	anda_no_mapa(&mp, pacman.x, pacman.y, prox_x, prox_y);
 	
 	// atualizando a posicao atual no pacman
 	pacman.x = prox_x;
 	pacman.y =  prox_y;
 }
 
+void fantasmas(){
+	MAPA copia;
+	copia_mapa(&copia, &mp);
+	// varendo a matriz original e armazenando na matriz copia
+	for(int i = 0; i< mp.linhas; i++){
+		for(int j = 0; j< mp.colunas; j++){
+			if(copia.matriz[i][j] == FANTASMA){
+				if(ehvalida(&mp, i , j+1) && ehvazia(&mp, i, j+1)){ 
+					 anda_no_mapa(&mp, i, j, i, j+1); // vai p/ direita
+				}			
+			}	 
+		}
+	}
+	
+	libera_mapa(&copia);	
+}
