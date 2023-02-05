@@ -47,17 +47,18 @@ void imprime_mapa(MAPA* mp){
 	}
 }
 
-void encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
+int encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
 	// localizando algo no mapa
 	 for(int i=0; i<mp->linhas; i++){
 	 	for(int j=0; j<mp->colunas; j++){
 	 		if(mp->matriz[i][j] == c){
 	 			p->x = i;
 	 			p->y = j;
-	 			break;
+	 			return 1; // achou
 	 		}
 	 	}
 	 }
+	 return 0; // não achou
 }
 
 int pode_andar(MAPA* mp, int x, int y){

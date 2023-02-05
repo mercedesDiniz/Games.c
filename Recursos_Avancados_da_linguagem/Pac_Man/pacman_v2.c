@@ -30,7 +30,9 @@ int main(){
 
 // FUNÇÕES:
 int acabou(){
-	return 0; // nao acabou
+	POSICAO pos;
+	int pacman_esta_no_mapa = encontrar_no_mapa(&mp, &pos, PACMAN); // verifica se o pacman está no mapa
+	return !pacman_esta_no_mapa; // acaba quando o pacman morre
 }
 
 int ehdirecao(char direcao){

@@ -22,7 +22,7 @@ void libera_mapa(MAPA* mp);
 void imprime_mapa(MAPA* mp);
 void copia_mapa(MAPA* copia, MAPA* original);
 
-void encontrar_no_mapa(MAPA* mp, POSICAO* p, char c);
+int encontrar_no_mapa(MAPA* mp, POSICAO* p, char c);
 int pode_andar(MAPA* mp, int x, int y);
 int ehvalida(MAPA* mp, int x, int y);
 int ehvazia(MAPA* mp, int x, int y);
