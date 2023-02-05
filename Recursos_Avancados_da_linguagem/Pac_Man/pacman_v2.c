@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "pacman.h"
 #include "mapa.h"
 
 // Declarando Variaveis Globais
 MAPA mp;
 POSICAO pacman; // posição atual do pacman
-
 
 // MAIN
 int main(){	
@@ -69,6 +69,27 @@ void move(char direcao){
 	pacman.y =  prox_y;
 }
 
+int pra_onde_o_fantasma_vai(int x_atual, int y_atual, int* x_dest, int* y_dest){
+	int opcoes[4][2] = {
+		{x_atual, y_atual+1}, // p/ direita
+		{x_atual+1, y_atual}, // p/ baixo
+		{x_atual, y_atual-1}, // p/ esquerda
+		{x_atual-1, y_atual}, // p/ cima
+	};
+	
+	srand(time(0)); // semente
+	for(int i=0; i < 10; i++){
+		int posicao = rand() % 4; // chutando um numero aleatorio entre 0 e 3
+		if(ehvalida(&mp, opcoes[posicao][0], opcoes[posicao][1]) && 
+		ehvazia(&mp, opcoes[posicao][0], opcoes[posicao][1])){
+			*x_dest = opcoes[posicao][0];
+			*y_dest = opcoes[posicao][1];
+			return 1;
+		}
+	}
+	return 0;
+}
+
 void fantasmas(){
 	MAPA copia;
 	copia_mapa(&copia, &mp);
@@ -76,8 +97,11 @@ void fantasmas(){
 	for(int i = 0; i< mp.linhas; i++){
 		for(int j = 0; j< mp.colunas; j++){
 			if(copia.matriz[i][j] == FANTASMA){
-				if(ehvalida(&mp, i , j+1) && ehvazia(&mp, i, j+1)){ 
-					 anda_no_mapa(&mp, i, j, i, j+1); // vai p/ direita
+				int x_dest;
+				int y_dest;
+				int encontrou = pra_onde_o_fantasma_vai(i, j, &x_dest, &y_dest);	
+				if(encontrou){ 
+					 anda_no_mapa(&mp, i, j, x_dest, y_dest); // vai p/ a nova posicao
 				}			
 			}	 
 		}
