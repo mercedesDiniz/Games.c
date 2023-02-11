@@ -23,7 +23,7 @@ int main(){
 		scanf(" %c", &comando);
 		
 		move(comando); // executando o comando
-		if(comando == BOMBA) explode_pill();
+		if(comando == BOMBA) explode_pill(pacman.x, pacman.y, 3);
 		
 		fantasmas(); // habilitando os fantasmas
 			
@@ -78,16 +78,18 @@ void move(char direcao){
 	pacman.x = prox_x;
 	pacman.y =  prox_y;
 }
- 
-void explode_pill(){
-	// as power pill apaga o comteudo das tres casas para direita
-	for(int i=1; i<=3; i++){
-		if(ehvalida(&mp, pacman.x, pacman.y+i) ){
-			if(ehparede(&mp, pacman.x, pacman.y+i)) break; // não explode parede
-			mp.matriz[pacman.x][pacman.y+i] = VAZIO;
-		} 
+
+// as power pill apaga o comteudo das tres casas para direita
+void explode_pill(int x, int y, int repet){
+	if(0 == repet){
+		power_pill--;
+		return; // condição de quebra de loop
 	}
-	power_pill--;
+	if(!ehvalida(&mp, x, y+1)) return;
+	if(ehparede(&mp, x, y+1)) return; // não explode parede
+
+	mp.matriz[x][y+1] = VAZIO; // apaga o conteudo da proxima casa à direita
+	explode_pill(x, y+1, repet-1); // função recursiva
 }
 
 int pra_onde_o_fantasma_vai(int x_atual, int y_atual, int* x_dest, int* y_dest){
