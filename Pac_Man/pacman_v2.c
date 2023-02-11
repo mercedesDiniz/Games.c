@@ -7,7 +7,7 @@
 // Declarando Variaveis Globais
 MAPA mp;
 POSICAO pacman; // posição atual do pacman
-int power_pill = 0; // qtd de pilulas de poder
+int havePowerPill = 0; // qtd de pilulas de poder
 
 // MAIN
 int main(){	
@@ -16,14 +16,14 @@ int main(){
 	
 	// LOOP PRINCIPAL
 	do{	
-		printf("Tem power pill: %s\n", (power_pill ? "SIM" : "NÃO"));
+		printf("Tem power pill: %s\n", (havePowerPill ? "SIM" : "NÃO"));
 		imprime_mapa(&mp);
 		// Recebe novo comando
 		char comando;
 		scanf(" %c", &comando);
 		
 		move(comando); // executando o comando
-		if(comando == BOMBA) explode_pill(pacman.x, pacman.y, 3);
+		if(comando == BOMBA) explode_pill();
 		
 		fantasmas(); // habilitando os fantasmas
 			
@@ -68,7 +68,7 @@ void move(char direcao){
 	
 	// verifica se na posição emque o pacman vai tem uma das power Pill
 	if(ehpersonagem(&mp, PILL, prox_x, prox_y)){ 
-		power_pill = 1;
+		havePowerPill = 1;
 	}
 	
 	// movenvo o pacman p/ um posicao valida no mapa
@@ -79,17 +79,28 @@ void move(char direcao){
 	pacman.y =  prox_y;
 }
 
-// as power pill apaga o comteudo das tres casas para direita
-void explode_pill(int x, int y, int repet){
-	if(0 == repet){
-		power_pill--;
-		return; // condição de quebra de loop
-	}
-	if(!ehvalida(&mp, x, y+1)) return;
-	if(ehparede(&mp, x, y+1)) return; // não explode parede
+// as power pill apagam o conteudo de determinadas quantidades de casas em todas as direções
+void explode_pill(){
+	int qtd_casas = 3;
+	if(!havePowerPill) return; // se não tem power pill não há como explodir nada
+	explode_pill_1D(pacman.x, pacman.y, 0, 1, qtd_casas);  // explodindo p/ direita
+	explode_pill_1D(pacman.x, pacman.y, 0, -1, qtd_casas); // explodindo p/ esquerda
+	explode_pill_1D(pacman.x, pacman.y, 1, 0, qtd_casas);  // explodindo p/ cima
+	explode_pill_1D(pacman.x, pacman.y, -1, 0, qtd_casas); // explodindo p/ baixo
+	havePowerPill = 0; // usou, acabou
+}
+// apagam o conteudo de determinadas quantidades de casas em determinada direção
+void explode_pill_1D(int x, int y, int d_x, int d_y, int qtd_casas){
+	if(0 == qtd_casas) return; // condição de quebra de loop ("ponto de fuga")
 
-	mp.matriz[x][y+1] = VAZIO; // apaga o conteudo da proxima casa à direita
-	explode_pill(x, y+1, repet-1); // função recursiva
+	int new_x = x + d_x;
+	int new_y = y + d_y;
+
+	if(!ehvalida(&mp, new_x, new_y)) return;
+	if(ehparede(&mp, new_x, new_y)) return; // não explode parede
+
+	mp.matriz[new_x][new_y] = VAZIO; // apaga o conteudo da proxima casa da direção definida
+	explode_pill_1D(new_x, new_y, d_x, d_y, qtd_casas-1); // função recursiva
 }
 
 int pra_onde_o_fantasma_vai(int x_atual, int y_atual, int* x_dest, int* y_dest){
