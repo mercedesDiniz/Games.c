@@ -7,6 +7,7 @@
 // Declarando Variaveis Globais
 MAPA mp;
 POSICAO pacman; // posição atual do pacman
+int power_pill = 0; // qtd de pilulas de poder
 
 // MAIN
 int main(){	
@@ -14,13 +15,16 @@ int main(){
 	 encontrar_no_mapa(&mp, &pacman, PACMAN); // localizando posicao inicial do pacman no mapa
 	
 	// LOOP PRINCIPAL
-	do{
+	do{	
+		printf("Tem power pill: %s\n", (power_pill ? "SIM" : "NÃO"));
 		imprime_mapa(&mp);
 		// Recebe novo comando
 		char comando;
 		scanf(" %c", &comando);
 		
 		move(comando); // executando o comando
+		if(comando == BOMBA) explode_pill();
+		
 		fantasmas(); // habilitando os fantasmas
 			
 	}while(!acabou());
@@ -62,12 +66,28 @@ void move(char direcao){
 
 	if(!pode_andar(&mp, PACMAN, prox_x, prox_y)) return; //tratrando a validacao do movimento 
 	
+	// verifica se na posição emque o pacman vai tem uma das power Pill
+	if(ehpersonagem(&mp, PILL, prox_x, prox_y)){ 
+		power_pill = 1;
+	}
+	
 	// movenvo o pacman p/ um posicao valida no mapa
 	anda_no_mapa(&mp, pacman.x, pacman.y, prox_x, prox_y);
 	
 	// atualizando a posicao atual no pacman
 	pacman.x = prox_x;
 	pacman.y =  prox_y;
+}
+ 
+void explode_pill(){
+	// as power pill apaga o comteudo das tres casas para direita
+	for(int i=1; i<=3; i++){
+		if(ehvalida(&mp, pacman.x, pacman.y+i) ){
+			if(ehparede(&mp, pacman.x, pacman.y+i)) break; // não explode parede
+			mp.matriz[pacman.x][pacman.y+i] = VAZIO;
+		} 
+	}
+	power_pill--;
 }
 
 int pra_onde_o_fantasma_vai(int x_atual, int y_atual, int* x_dest, int* y_dest){

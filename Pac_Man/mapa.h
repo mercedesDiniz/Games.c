@@ -1,5 +1,6 @@
 #define PACMAN '@'
 #define FANTASMA 'F'
+#define PILL 'P'
 #define VAZIO '.'
 #define PAREDE_VERTICAL '|'
 #define PAREDE_HORIZONTAL '-'
