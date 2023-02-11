@@ -3,6 +3,7 @@
 #include <time.h>
 #include "pacman.h"
 #include "mapa.h"
+#include "ui.h"
 
 // Declarando Variaveis Globais
 MAPA mp;

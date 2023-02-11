@@ -1,3 +1,6 @@
+#ifndef _MAPA_H_
+#define _MAPA_H_
+
 #define PACMAN '@'
 #define FANTASMA 'F'
 #define PILL 'P'
@@ -20,7 +23,6 @@ typedef struct posicao POSICAO;
 void le_mapa(MAPA* mp);
 void malloc_mapa(MAPA* mp);
 void libera_mapa(MAPA* mp);
-void imprime_mapa(MAPA* mp);
 void copia_mapa(MAPA* copia, MAPA* original);
 int encontrar_no_mapa(MAPA* mp, POSICAO* p, char c);
 
@@ -31,3 +33,5 @@ int ehpersonagem(MAPA* mp, char personagem, int x, int y);
 
 int pode_andar(MAPA* mp, char personagem, int x, int y);
 void anda_no_mapa(MAPA* mp, int x_origem, int y_origem, int x_dest, int y_dest);
+
+#endif

@@ -40,13 +40,6 @@ void libera_mapa(MAPA* mp){
 	free(mp->matriz);
 }
 
-void imprime_mapa(MAPA* mp){
-	// Exibindo o mapa
-	for(int i = 0; i<mp->linhas; i++){	
-		printf("%s\n", mp->matriz[i]);
-	}
-}
-
 int encontrar_no_mapa(MAPA* mp, POSICAO* p, char c){
 	// localizando algo no mapa
 	 for(int i=0; i<mp->linhas; i++){
