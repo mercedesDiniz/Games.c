@@ -12,7 +12,7 @@ $ ./script.out
 
 ```
 # Projects:
-- Jogo de Adivinhação 
+- Guessing Game 
 ```
 $ gcc adivinhacao_v3.c -o adiv3.out
 $ ./adiv3.out
@@ -20,7 +20,7 @@ $ ./adiv3.out
 ```
 ![Adivinhação](img/adivinhacao.png)
 
-- Jogo de Forca
+- Hangman Game
 ```
 $ gcc forca_v2.c -o forca2.out
 $ ./forca2.out
@@ -28,7 +28,7 @@ $ ./forca2.out
 ```
 ![Forca](img/forca2.png)
 
-- Jogo do PacMan
+- PacMan
 ```
 $ gcc pacman_v2.c mapa.c ui.c -o pacman.out
 $ ./pacman.out
